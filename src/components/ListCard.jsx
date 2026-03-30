@@ -57,7 +57,7 @@ export const ListCard = ({ list }) => {
 
 
     const getTitleClass = (secondsLeft) => {
-        if (secondsLeft < ONE_HOUR * 4) {
+        if (secondsLeft < ONE_DAY) {
             return "list-card__title--danger-red";
         }
         if (secondsLeft < ONE_DAY * 2) {

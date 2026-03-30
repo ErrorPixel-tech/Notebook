@@ -37,7 +37,7 @@ const boardsSlice = createSlice({
                     ? {
                         ...list,
                         tasks: [],
-                        title: `=== ${list.title} ВРЕМЯ ВЫШЛО ===`,
+                        title: `${list.title.toUpperCase()} - ВРЕМЯ ВЫШЛО`,
                         isExpired: true,
                     }
                     : list

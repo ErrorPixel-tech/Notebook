@@ -40,8 +40,16 @@
     margin: 0 0 12px 0;
     font-size: 18px;
 
-    &--danger {
+    &--danger-yellow {
+      color: rgb(255, 145, 0);
+    }
+
+    &--danger-red {
       color: red;
+    }
+    
+    &--danger-black {
+      color: rgb(0, 0, 0);
     }
   }
 

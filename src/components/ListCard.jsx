@@ -55,14 +55,34 @@ export const ListCard = ({ list }) => {
         dispatch(deleteList({ listId: list.id }));
     };
 
+    const ONE_HOUR = 60 * 60;  // 24 часа в секундах
+    const TWOO_HOURS = 60 * 60 * 2;  // 24 часа в секундах
+    const ONE_DAY = 86400;  // 24 часа в секундах
+    const TWO_DAYS = 172800; // 48 часов
+
+
+    const getTitleClass = (secondsLeft) => {
+        if (secondsLeft < ONE_HOUR * 4) {
+            return "list-card__title--danger-red";
+        }
+        if (secondsLeft < ONE_DAY * 2) {
+            return "list-card__title--danger-yellow";
+        }
+        if (secondsLeft < ONE_DAY * 7) {
+            return "list-card__title--danger-black";
+        }
+        return "";  // >7 дней
+    };
+    const titleClass = getTitleClass(secondsLeft);
+
+    // useEffect(() => {
+    //     const title = list.title;
+    //     console.log("debug:", { title, secondsLeft, titleClass });
+    // }, [list.title, secondsLeft, titleClass]);
+
     return (
         <div className="list-card">
-            <h3 className={
-                "list-card__title" +
-                (secondsLeft > 0 && secondsLeft < 86400
-                    ? " list-card__title--danger"
-                    : "")
-            }>{list.title}</h3>
+            <h3 className={"list-card__title" + " " + titleClass}>{list.title}</h3>
             <div className="list-card__timer">
                 До удаления: {formatTime(secondsLeft)}
             </div>

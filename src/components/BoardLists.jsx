@@ -20,16 +20,24 @@ export const BoardLists = () => {
                     Добавить список на 2 секунды
                 </button>
                 <button className="board__btn-add"
+                    onClick={()=>addListWithTimer(60*60*1)}>
+                    1 час
+                </button>
+                <button className="board__btn-add"
+                    onClick={()=>addListWithTimer(60*60*1)}>
+                    2 часа
+                </button>
+                <button className="board__btn-add"
                     onClick={()=>addListWithTimer(60*60*24)}>
-                    Добавить список на 1 день
+                    1 день
                 </button>
                 <button className="board__btn-add"
                     onClick={()=>addListWithTimer(60*60*24*2)}>
-                    Добавить список на 2 дня
+                    2 дня
                 </button>
                 <button className="board__btn-add"
                     onClick={()=>addListWithTimer(60*60*24*7)}>
-                    Добавить список на неделю
+                    на неделю
                 </button>
             </div>
             <div className="board__lists">

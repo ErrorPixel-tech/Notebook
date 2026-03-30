@@ -24,7 +24,7 @@ export const BoardLists = () => {
                     1 час
                 </button>
                 <button className="board__btn-add"
-                    onClick={()=>addListWithTimer(60*60*1)}>
+                    onClick={()=>addListWithTimer(60*60*2)}>
                     2 часа
                 </button>
                 <button className="board__btn-add"

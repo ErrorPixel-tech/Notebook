@@ -13,7 +13,8 @@ const boardsSlice = createSlice({
                 title,
                 tasks: [],
                 createdAt: Date.now(),
-                expiresAt: (Date.now() + timeInSeconds * 1000)
+                expiresAt: (Date.now() + timeInSeconds * 1000),
+                isExpired: false
             });
         },
         addTask(state, action) {
@@ -27,9 +28,23 @@ const boardsSlice = createSlice({
                 });
             }
         },
+        markListExpired(state, action) {
+            console.log('expired');  // ок для дебага
+            const { listId } = action.payload;
+            
+            state.lists = state.lists.map(list =>
+                list.id === listId
+                    ? {
+                        ...list,
+                        tasks: [],
+                        title: `=== ${list.title} ВРЕМЯ ВЫШЛО ===`,
+                        isExpired: true,
+                    }
+                    : list
+            );
+        },
         deleteList(state, action) {
             const { listId } = action.payload;
-            console.log("listId " + listId);
             state.lists = state.lists.filter(list => list.id !== listId);
         },
         toggleTask(state, action) {
@@ -50,5 +65,5 @@ const boardsSlice = createSlice({
     }
 });
 
-export const { addListWithTimer, addTask, toggleTask, deleteTask, deleteList } = boardsSlice.actions;
+export const { addListWithTimer, markListExpired, addTask, toggleTask, deleteTask, deleteList } = boardsSlice.actions;
 export default boardsSlice.reducer;

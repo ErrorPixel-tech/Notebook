@@ -16,8 +16,8 @@ export const BoardLists = () => {
         <div className="board">
             <div className="board__controls">
                 <button className="board__btn-add"
-                    onClick={() => addListWithTimer(2)}>
-                    2 секунды
+                    onClick={() => addListWithTimer(3)}>
+                    3 секунды
                 </button>
                 <button className="board__btn-add"
                     onClick={() => addListWithTimer(60 * 60 * 1)}>

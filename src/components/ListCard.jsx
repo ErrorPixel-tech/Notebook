@@ -2,7 +2,7 @@
 import { useDispatch } from "react-redux";
 import { TaskItem } from "./TaskItem";
 import { useEffect, useState } from "react";
-import { deleteList, addTask } from "../app/slices/boardsSlice";
+import { deleteList, addTask, markListExpired } from "../app/slices/boardsSlice";
 
 export const ListCard = ({ list }) => {
     const dispatch = useDispatch();
@@ -15,27 +15,22 @@ export const ListCard = ({ list }) => {
     });
 
     useEffect(() => {
-        if (secondsLeft <= 0) {
-            // если уже истёк — просто удаляем и выходим
-            dispatch(deleteList({ listId: list.id }));
-            return;
-        }
-
-        const timer = setInterval(() => {
-            setSecondsLeft(prev => {
-                if (prev <= 1) {
-                    clearInterval(timer);
-                    // удаляем, когда дошли до 0
-                    dispatch(deleteList({ listId: list.id }));
-                    return 0;
-                }
-                return prev - 1;
-            });
+        const interval = setInterval(() => {
+            setSecondsLeft(prev => prev > 0 ? prev - 1 : 0);
         }, 1000);
+        return () => clearInterval(interval);
+    }, []);  // пустые! тикает всегда
 
-        return () => clearInterval(timer);
-        // важно: зависим от list.id и secondsLeft
-    }, [dispatch, list.id, secondsLeft]);
+    useEffect(() => {
+        const checkExpired = () => {
+            if (Date.now() > list.expiresAt && !list.isExpired) {
+                dispatch(markListExpired({ listId: list.id }));
+            }
+        };
+
+        const interval = setInterval(checkExpired, 1000);
+        return () => clearInterval(interval);
+    }, [dispatch, list.id, list.expiresAt, list.isExpired]);
 
     const formatTime = (seconds) => {
         if (seconds <= 0) return "0s";

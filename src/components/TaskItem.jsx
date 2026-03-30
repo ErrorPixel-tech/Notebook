@@ -10,9 +10,15 @@ export const TaskItem = ({ task, listId }) => {
     };
 
     const deleteTask = () => {
-        dispatch(
-            { type: "boards/deleteTask", payload: { listId, taskId: task.id } }
-        );
+        const isConfirmed = confirm("Вы уверены, что хотите удалить задачу?");
+        if (isConfirmed) {
+            dispatch(
+                { type: "boards/deleteTask", payload: { listId, taskId: task.id } }
+            ); 
+        } else {
+            ;
+        }
+
     };
 
     return (

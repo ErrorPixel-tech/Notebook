@@ -47,7 +47,13 @@ export const ListCard = ({ list }) => {
         dispatch(addTask({ listId: list.id, text }));
     };
     const handleDeleteList = () => {
-        dispatch(deleteList({ listId: list.id }));
+        const isConfirmed = confirm("Вы уверены, что хотите удалить список?");
+        if (isConfirmed) {
+            dispatch(deleteList({ listId: list.id }));
+        } else {
+            ;
+        }
+
     };
 
     const ONE_HOUR = 60 * 60;  // 24 часа в секундах

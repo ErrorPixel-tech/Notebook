@@ -12,6 +12,30 @@ export const BoardLists = () => {
         }
     };
 
+    // TODO убрать date now
+    const calculateSecondsLeft = (list) => {
+        const now = Date.now();
+        const expiresAt = list.expiresAt;  // timestamp в ms
+        return Math.max(0, Math.floor((expiresAt - now) / 1000));  // секунды, минимум 0
+    };
+
+    // // В компоненте, где рендерите списки (например, в useMemo или перед map)
+    // const sortedLists = lists
+    //     .filter(list => !list.isExpired)  // Опционально: исключить истекшие
+    //     .sort((a, b) => {
+    //         const secondsA = calculateSecondsLeft(a);  // Ваша функция formatTime использует secondsLeft
+    //         const secondsB = calculateSecondsLeft(b);
+    //         return secondsA - secondsB;  // Восходящий порядок (скоро истекающие первыми)
+    //     });
+    // В компоненте, где рендерите списки (например, в useMemo или перед map)
+    const sortedLists = lists
+        .filter(list => list)  // TODO УБРАТЬ ВСРАТУЮ СТРОКУ
+        .sort((a, b) => {
+            const secondsA = calculateSecondsLeft(a);  // Ваша функция formatTime использует secondsLeft
+            const secondsB = calculateSecondsLeft(b);
+            return secondsA - secondsB;  // Восходящий порядок (скоро истекающие первыми)
+        });
+
     return (
         <div className="board">
             <div className="board__controls">
@@ -45,9 +69,12 @@ export const BoardLists = () => {
                 </button>
             </div>
             <div className="board__lists">
-                {lists.map((list) => (
+                {sortedLists.map((list) => (
                     <ListCard key={list.id} list={list} />
                 ))}
+                {/* {lists.map((list) => (
+                    <ListCard key={list.id} list={list} />
+                ))} */}
             </div>
         </div>
     );

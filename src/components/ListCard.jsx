@@ -81,23 +81,39 @@ export const ListCard = ({ list }) => {
     //     console.log("debug:", { title, secondsLeft, titleClass });
     // }, [list.title, secondsLeft, titleClass]);
 
-    return (
-        <div className="list-card">
-            <h3 className={"list-card__title" + " " + titleClass}>{list.title}</h3>
-            <div className="list-card__timer">
-                До удаления: {formatTime(secondsLeft)}
+
+    let cardContent;
+
+    if (list.isExpired) {
+        cardContent = (
+            <div className="list-card">
+                <h3 className={"list-card__title" + " " + titleClass}>{list.title.toUpperCase()} - ВРЕМЯ ВЫШЛО</h3>
+                <button className="list-card__btn-add" onClick={handleDeleteList}>
+                    Удалить список
+                </button>
             </div>
-            <ul className="list-card__tasks">
-                {list.tasks.map((task) => (
-                    <TaskItem key={task.id} task={task} listId={list.id} />
-                ))}
-            </ul>
-            <button className="list-card__btn-add" onClick={handleAddTask}>
-                Добавить задачу
-            </button>
-            <button className="list-card__btn-add" onClick={handleDeleteList}>
-                Удалить список
-            </button>
-        </div>
-    );
+        );
+    } else {
+        cardContent = (
+            <div className="list-card">
+                <h3 className={"list-card__title" + " " + titleClass}>{list.title}</h3>
+                <div className="list-card__timer">
+                    До удаления: {formatTime(secondsLeft)}
+                </div>
+                <ul className="list-card__tasks">
+                    {list.tasks.map((task) => (
+                        <TaskItem key={task.id} task={task} listId={list.id} />
+                    ))}
+                </ul>
+                <button className="list-card__btn-add" onClick={handleAddTask}>
+                    Добавить задачу
+                </button>
+                <button className="list-card__btn-add" onClick={handleDeleteList}>
+                    Удалить список
+                </button>
+            </div>
+        );
+    }
+
+    return cardContent;
 };

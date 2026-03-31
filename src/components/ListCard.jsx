@@ -105,12 +105,14 @@ export const ListCard = ({ list }) => {
                         <TaskItem key={task.id} task={task} listId={list.id} />
                     ))}
                 </ul>
-                <button className="list-card__btn-add" onClick={handleAddTask}>
-                    Добавить задачу
-                </button>
-                <button className="list-card__btn-add" onClick={handleDeleteList}>
-                    Удалить список
-                </button>
+                <div className="list-card__buttons">
+                    <button className="list-card__btn-add" onClick={handleAddTask}>
+                        Добавить задачу
+                    </button>
+                    <button className="list-card__btn-add" onClick={handleDeleteList}>
+                        Удалить список
+                    </button>
+                </div>
             </div>
         );
     }

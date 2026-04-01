@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { ListCard } from "./ListCard";
+import { showAllLists } from "../app/slices/boardsSlice";
 
 export const BoardLists = () => {
     const dispatch = useDispatch();
@@ -36,9 +37,18 @@ export const BoardLists = () => {
             return secondsA - secondsB;  // Восходящий порядок (скоро истекающие первыми)
         });
 
+    const visibleLists = sortedLists.filter(list => !list.isHidden);
+
     return (
         <div className="board">
             <div className="board__controls">
+                <button
+                    className="board__btn-add board__btn-show-all"
+                    onClick={() => dispatch(showAllLists())}
+                    disabled={visibleLists.length === lists.length} // если все видимы
+                >
+                    Показать все скрытые ({lists.length - visibleLists.length})
+                </button>
                 <button className="board__btn-add"
                     onClick={() => addListWithTimer(3)}>
                     3 секунды
@@ -69,7 +79,7 @@ export const BoardLists = () => {
                 </button>
             </div>
             <div className="board__lists">
-                {sortedLists.map((list) => (
+                {visibleLists.map((list) => (
                     <ListCard key={list.id} list={list} />
                 ))}
                 {/* {lists.map((list) => (

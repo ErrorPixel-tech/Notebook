@@ -14,7 +14,8 @@ const boardsSlice = createSlice({
                 tasks: [],
                 createdAt: Date.now(),
                 expiresAt: (Date.now() + timeInSeconds * 1000),
-                isExpired: false
+                isExpired: false,
+                isHidden: false
             });
         },
         addTask(state, action) {
@@ -31,7 +32,7 @@ const boardsSlice = createSlice({
         markListExpired(state, action) {
             console.log('expired');  // ок для дебага
             const { listId } = action.payload;
-            
+
             state.lists = state.lists.map(list =>
                 list.id === listId
                     ? {
@@ -42,6 +43,18 @@ const boardsSlice = createSlice({
                     }
                     : list
             );
+        },
+        toggleListHidden: (state, action) => {
+            const listId = action.payload;
+            const listIndex = state.lists.findIndex(list => list.id === listId);
+            if (listIndex !== -1) {
+                state.lists[listIndex].isHidden = !state.lists[listIndex].isHidden;
+            }
+        },
+        showAllLists: (state) => {
+            state.lists.forEach(list => {
+                list.isHidden = false;
+            });
         },
         deleteList(state, action) {
             const { listId } = action.payload;
@@ -65,5 +78,5 @@ const boardsSlice = createSlice({
     }
 });
 
-export const { addListWithTimer, markListExpired, addTask, toggleTask, deleteTask, deleteList } = boardsSlice.actions;
+export const { addListWithTimer, toggleListHidden, showAllLists, markListExpired, addTask, toggleTask, deleteTask, deleteList } = boardsSlice.actions;
 export default boardsSlice.reducer;

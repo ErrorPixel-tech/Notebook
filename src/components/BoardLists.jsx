@@ -47,7 +47,7 @@ export const BoardLists = () => {
                     onClick={() => dispatch(showAllLists())}
                     disabled={visibleLists.length === lists.length} // если все видимы
                 >
-                    Показать все скрытые ({lists.length - visibleLists.length})
+                    Показать все скрытые {(lists.length - visibleLists.length) !== 0 ? "(есть скрытые)" : ""}
                 </button>
                 <button className="board__btn-add"
                     onClick={() => addListWithTimer(3)}>

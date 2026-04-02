@@ -56,6 +56,13 @@ const boardsSlice = createSlice({
                 list.isHidden = false;
             });
         },
+        hideOthersExcept: (state, action) => {
+            const { targetId } = action.payload;
+            state.lists = state.lists.map(list => ({
+                ...list,
+                isHidden: list.id !== targetId
+            }));
+        },
         deleteList(state, action) {
             const { listId } = action.payload;
             state.lists = state.lists.filter(list => list.id !== listId);
@@ -78,5 +85,5 @@ const boardsSlice = createSlice({
     }
 });
 
-export const { addListWithTimer, toggleListHidden, showAllLists, markListExpired, addTask, toggleTask, deleteTask, deleteList } = boardsSlice.actions;
+export const { addListWithTimer, hideOthersExcept, toggleListHidden, showAllLists, markListExpired, addTask, toggleTask, deleteTask, deleteList } = boardsSlice.actions;
 export default boardsSlice.reducer;

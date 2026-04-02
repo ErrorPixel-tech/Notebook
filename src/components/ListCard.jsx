@@ -2,7 +2,7 @@
 import { useDispatch } from "react-redux";
 import { TaskItem } from "./TaskItem";
 import { useEffect, useState } from "react";
-import { deleteList, addTask, toggleListHidden, markListExpired } from "../app/slices/boardsSlice";
+import { deleteList, addTask, toggleListHidden, hideOthersExcept, markListExpired } from "../app/slices/boardsSlice";
 
 export const ListCard = ({ list }) => {
     const dispatch = useDispatch();
@@ -122,6 +122,12 @@ export const ListCard = ({ list }) => {
                         onClick={() => dispatch(toggleListHidden(list.id))}
                     >
                         Скрыть
+                    </button>
+                    <button
+                        className="list-card__btn-add list-card__btn-hide"
+                        onClick={() => dispatch(hideOthersExcept({ targetId: list.id }))}
+                    >
+                        Скрыть всё остальное
                     </button>
                     <button className="list-card__btn-add" onClick={handleDeleteList}>
                         Удалить список

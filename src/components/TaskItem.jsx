@@ -8,13 +8,18 @@ export const TaskItem = ({ task, listId }) => {
             { type: "boards/toggleTask", payload: { listId, taskId: task.id } }
         );
     };
+    const hideOtherTasksInList = () => {
+        dispatch(
+            { type: "boards/hideOtherTasksInList", payload: { listId, taskId: task.id } }
+        );
+    };
 
     const deleteTask = () => {
         const isConfirmed = confirm("Вы уверены, что хотите удалить задачу?");
         if (isConfirmed) {
             dispatch(
                 { type: "boards/deleteTask", payload: { listId, taskId: task.id } }
-            ); 
+            );
         } else {
             ;
         }
@@ -22,7 +27,7 @@ export const TaskItem = ({ task, listId }) => {
     };
 
     return (
-        <li className="task-item">
+        <li className="task-item" style={{ display: task.isHidden ? 'none' : 'block' }}>
             <input
                 type="checkbox"
                 checked={task.done}
@@ -32,6 +37,7 @@ export const TaskItem = ({ task, listId }) => {
                 {task.text}
             </span>
             <button onClick={deleteTask}>x</button>
+            <button onClick={hideOtherTasksInList}>o</button>
         </li>
     );
 };

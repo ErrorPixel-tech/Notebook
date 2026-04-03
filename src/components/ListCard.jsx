@@ -2,10 +2,12 @@
 import { useDispatch } from "react-redux";
 import { TaskItem } from "./TaskItem";
 import { useEffect, useState } from "react";
-import { deleteList, addTask, toggleListHidden, hideOthersExcept, markListExpired } from "../app/slices/boardsSlice";
+import { deleteList, addTask, toggleListHidden, showHiddenTasksInList, hideOthersExcept, markListExpired } from "../app/slices/boardsSlice";
 
 export const ListCard = ({ list }) => {
     const dispatch = useDispatch();
+
+
 
     // стартовое значение — считаем один раз
     const [secondsLeft, setSecondsLeft] = useState(() => {
@@ -82,6 +84,8 @@ export const ListCard = ({ list }) => {
     // }, [list.title, secondsLeft, titleClass]);
 
 
+    const hiddenCount = list?.tasks.filter(t => t.isHidden).length || 0;
+
     let cardContent;
 
     if (list.isHidden) {
@@ -105,6 +109,11 @@ export const ListCard = ({ list }) => {
         cardContent = (
             <div className="list-card">
                 <h3 className={"list-card__title" + " " + titleClass}>{list.title}</h3>
+                {hiddenCount > 0 && (
+                    <button onClick={() => dispatch(showHiddenTasksInList({ listId: list.id }))}>
+                        Показать все скрытые
+                    </button>
+                )}
                 <div className="list-card__timer">
                     До удаления: {formatTime(secondsLeft)}
                 </div>

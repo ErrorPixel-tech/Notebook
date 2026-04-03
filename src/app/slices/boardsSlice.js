@@ -26,6 +26,7 @@ const boardsSlice = createSlice({
                     id: crypto.randomUUID(),
                     text,
                     done: false,
+                    isHidden: false,
                 });
             }
         },
@@ -63,6 +64,24 @@ const boardsSlice = createSlice({
                 isHidden: list.id !== targetId
             }));
         },
+        hideOtherTasksInList: (state, action) => {
+            const { listId, taskId } = action.payload;
+            const list = state.lists.find(list => list.id === listId);
+            if (list) {
+                list.tasks.forEach(task => {
+                    task.isHidden = task.id !== taskId;
+                });
+            }
+        },
+        showHiddenTasksInList: (state, action) => {
+            const { listId } = action.payload;
+            const list = state.lists.find(list => list.id === listId);
+            if (list) {
+                list.tasks.forEach(task => {
+                    task.isHidden = false;
+                });
+            }
+        },
         deleteList(state, action) {
             const { listId } = action.payload;
             state.lists = state.lists.filter(list => list.id !== listId);
@@ -85,5 +104,5 @@ const boardsSlice = createSlice({
     }
 });
 
-export const { addListWithTimer, hideOthersExcept, toggleListHidden, showAllLists, markListExpired, addTask, toggleTask, deleteTask, deleteList } = boardsSlice.actions;
+export const { addListWithTimer, hideOthersExcept, showHiddenTasksInList, hideOtherTasksInList, toggleListHidden, showAllLists, markListExpired, addTask, toggleTask, deleteTask, deleteList } = boardsSlice.actions;
 export default boardsSlice.reducer;

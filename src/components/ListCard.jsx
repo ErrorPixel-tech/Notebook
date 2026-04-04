@@ -2,7 +2,7 @@
 import { useDispatch } from "react-redux";
 import { TaskItem } from "./TaskItem";
 import { useEffect, useState } from "react";
-import { deleteList, addTask, toggleListHidden, showHiddenTasksInList, hideOthersExcept, markListExpired } from "../app/slices/boardsSlice";
+import { deleteList, startTimer, pauseTimer, resetTimer, addTask, toggleListHidden, showHiddenTasksInList, hideOthersExcept, markListExpired } from "../app/slices/boardsSlice";
 
 export const ListCard = ({ list }) => {
     const dispatch = useDispatch();
@@ -62,7 +62,7 @@ export const ListCard = ({ list }) => {
         const now = new Date();
         console.log(list.createdAt);
         console.log(now);
-        
+
         const diffMs = now - list.createdAt;
         console.log(diffMs);
 
@@ -125,6 +125,16 @@ export const ListCard = ({ list }) => {
         );
     }
 
+    const currentElapsed = list.isRunning
+        ? list.elapsedMs + (Date.now() - list.startedAt)
+        : list.elapsedMs;
+
+    const seconds = Math.floor(currentElapsed / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hrs = Math.floor(minutes / 60);
+
+    const format = (n) => String(n).padStart(2, "0");
+
     if (list.isExpired) {
         cardContent = (
             <div className="list-card">
@@ -149,6 +159,12 @@ export const ListCard = ({ list }) => {
                 <div className="list-card__timer">
                     Создано: {timeAgo()}
                 </div>
+                <div>Секундомер: {format(hrs)}:{format(minutes % 60)}:{format(seconds % 60)}</div>
+                {!list.isRunning ? (
+                    <button onClick={() => dispatch(startTimer(list.id))}>Запуск</button>
+                ) : (
+                    <button onClick={() => dispatch(pauseTimer(list.id))}>Пауза</button>
+                )}
                 <ul className="list-card__tasks">
                     {list.tasks.map((task) => (
                         <TaskItem key={task.id} task={task} listId={list.id} />

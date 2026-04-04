@@ -15,7 +15,10 @@ const boardsSlice = createSlice({
                 createdAt: Date.now(),
                 expiresAt: (Date.now() + timeInSeconds * 1000),
                 isExpired: false,
-                isHidden: false
+                isHidden: false,
+                elapsedMs: 0,
+                startedAt: null,
+                isRunning: false
             });
         },
         addTask(state, action) {
@@ -100,9 +103,30 @@ const boardsSlice = createSlice({
             if (list) {
                 list.tasks = list.tasks.filter(t => t.id !== taskId);
             }
-        }
+        }, startTimer(state, action) {
+            const list = state.lists.find(l => l.id === action.payload);
+            if (!list || list.isRunning) return;
+            list.startedAt = Date.now();
+            list.isRunning = true;
+        },
+
+        pauseTimer(state, action) {
+            const list = state.lists.find(l => l.id === action.payload);
+            if (!list || !list.isRunning) return;
+            list.elapsedMs += Date.now() - list.startedAt;
+            list.startedAt = null;
+            list.isRunning = false;
+        },
+
+        resetTimer(state, action) {
+            const list = state.lists.find(l => l.id === action.payload);
+            if (!list) return;
+            list.elapsedMs = 0;
+            list.startedAt = null;
+            list.isRunning = false;
+        },
     }
 });
 
-export const { addListWithTimer, hideOthersExcept, showHiddenTasksInList, hideOtherTasksInList, toggleListHidden, showAllLists, markListExpired, addTask, toggleTask, deleteTask, deleteList } = boardsSlice.actions;
+export const { addListWithTimer, startTimer, pauseTimer, resetTimer, hideOthersExcept, showHiddenTasksInList, hideOtherTasksInList, toggleListHidden, showAllLists, markListExpired, addTask, toggleTask, deleteTask, deleteList } = boardsSlice.actions;
 export default boardsSlice.reducer;

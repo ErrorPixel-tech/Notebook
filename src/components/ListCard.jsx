@@ -58,6 +58,35 @@ export const ListCard = ({ list }) => {
 
     };
 
+    const timeAgo = () => {
+        const now = new Date();
+        console.log(list.createdAt);
+        console.log(now);
+        
+        const diffMs = now - list.createdAt;
+        console.log(diffMs);
+
+        const diffSec = Math.floor(diffMs / 1000) % 60;
+        const diffMin = Math.floor(diffMs / 60_000) % 60;
+        const diffHours = Math.floor(diffMs / 3_600_000) % 24;
+        const diffDays = Math.floor(diffMs / (3_600_000 * 24));
+
+        return `${diffDays}d ${diffHours}h ${diffMin}m ${diffSec}s`;
+
+        // if (diffSec < 60) return "менее минуты назад";
+        // if (diffMin < 60) return `${diffMin} мин. назад`;
+        // if (diffHours < 24) return `${diffHours} ч. назад`;
+        // return `${Math.floor(diffHours / 24)} дн. назад`;
+        // const diffSec = Math.floor(diffMs / 1000);
+        // const diffMin = Math.floor(diffMs / 60_000);
+        // const diffHours = Math.floor(diffMs / 3_600_000);
+
+        // if (diffSec < 60) return "менее минуты назад";
+        // if (diffMin < 60) return `${diffMin} мин. назад`;
+        // if (diffHours < 24) return `${diffHours} ч. назад`;
+        // return `${Math.floor(diffHours / 24)} дн. назад`;
+    };
+
     const ONE_HOUR = 60 * 60;  // 24 часа в секундах
     const TWOO_HOURS = 60 * 60 * 2;  // 24 часа в секундах
     const ONE_DAY = 86400;  // 24 часа в секундах
@@ -116,6 +145,9 @@ export const ListCard = ({ list }) => {
                 )}
                 <div className="list-card__timer">
                     До удаления: {formatTime(secondsLeft)}
+                </div>
+                <div className="list-card__timer">
+                    Создано: {timeAgo()}
                 </div>
                 <ul className="list-card__tasks">
                     {list.tasks.map((task) => (

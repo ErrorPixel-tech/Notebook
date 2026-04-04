@@ -51,31 +51,55 @@ export const BoardLists = () => {
                 </button>
                 <button className="board__btn-add"
                     onClick={() => addListWithTimer(3)}>
-                    3 секунды
+                    3s
+                </button>
+                <button className="board__btn-add"
+                    onClick={() => addListWithTimer(60 * 3)}>
+                    3m
+                </button>
+                <button className="board__btn-add"
+                    onClick={() => addListWithTimer(60 * 5)}>
+                    5m
+                </button>
+                <button className="board__btn-add"
+                    onClick={() => addListWithTimer(60 * 10)}>
+                    10m
+                </button>
+                <button className="board__btn-add"
+                    onClick={() => addListWithTimer(60 * 15)}>
+                    15m
+                </button>
+                <button className="board__btn-add"
+                    onClick={() => addListWithTimer(60 * 30)}>
+                    30m
+                </button>
+                <button className="board__btn-add"
+                    onClick={() => addListWithTimer(60 * 45)}>
+                    45m
                 </button>
                 <button className="board__btn-add"
                     onClick={() => addListWithTimer(60 * 60 * 1)}>
-                    1 час
+                    1h
                 </button>
                 <button className="board__btn-add"
                     onClick={() => addListWithTimer(60 * 60 * 2)}>
-                    2 часа
+                    2h
                 </button>
                 <button className="board__btn-add"
                     onClick={() => addListWithTimer(60 * 60 * 24)}>
-                    1 день
+                    1d
                 </button>
                 <button className="board__btn-add"
                     onClick={() => addListWithTimer(60 * 60 * 24 * 2)}>
-                    2 дня
+                    2d
                 </button>
                 <button className="board__btn-add"
                     onClick={() => addListWithTimer(60 * 60 * 24 * 7)}>
-                    1 неделя
+                    1w
                 </button>
                 <button className="board__btn-add"
                     onClick={() => addListWithTimer(60 * 60 * 24 * 14)}>
-                    2 недели
+                    2w
                 </button>
             </div>
             <div className="board__lists">
